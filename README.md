@@ -1,0 +1,92 @@
+# Repository
+
+This repository contains complementary files created during the development of the bachelor's thesis named `Divide and conquer strategy for representation of classical data using quantum states`. To better understand the repository contents, below is presented the abstract of the thesis:
+
+> This thesis focuses on exploring several known quantum data encoding methods. Specifically, four data encoding methods are presented, each utilizing a different approach to the representation of classical data using quantum states. Namely, the basis, angle, amplitude, and divide-and-conquer data encoding methods are discussed, with the divide-and-conquer encoding approach being based on the amplitude encoding method. Each encoding technique is first introduced and explained from a theoretical standpoint, with implications and characteristics discussed in detail. The encoding approaches are compared in terms of their qubit and gate complexities. The thesis comes with a repository containing the Python implementation of each introduced encoding method, with the implementation using the Qiskit library. Each encoding method is tested using a small input on IBM Quantum hardware, and the outcomes are compared with the expected results.
+
+The thesis document itself is the file named `thesps.pdf` located in the root of this repository. The thesis was written at Czech Technical University in Prague, Faculty of Information Technology, Department of Applied Mathematics.
+
+## Description
+
+The thesis introduces these four data encoding methods:
+
+1. The **basis** encoding method.
+2. The **angle** encoding method.
+3. The **amplitude** encoding method.
+4. The **divide-and-conquer** encoding method (based on the amplitude encoding method).
+
+This repository contains the implementation of these encoding strategies. The implementation was carried out using `Python` as the selected programming language along with the quantum programming library [Qiskit](https://github.com/QISKit). The repository is strategically divided into two primary sections, with one section containing the implementation of the encoding methods and the other section containing `Jupyter Notebooks` showcasing those encoding methods. This is apparent from the repository's top-level directory bifurcation into two main subdirectories:
+
+- `qsp/` Contains Python modules that implement the encoding methods.
+- `notebooks/` Houses Jupyter Notebooks that demonstrate the usage and effectiveness of the implemented encoding methods.
+
+The interaction between these two sections is symbiotic; the Python modules define the functional backbone of the encoding methods, while the Jupyter Notebooks serve to illustrate and explain these methods' usage and implications visually.
+
+#### Directory `qsp/`
+The directory `qsp` (short for "quantum state preparation") is the core of the implementation, containing several Python modules tailored to specific quantum data encoding methods. The directory is in and of itself a Python package capable of being imported and used to encode input vectors using the implemented encoding methods inside the package.
+
+At the heart of this package is the script `base.py`, which contains the abstract base class `QuantumStatePreparation`. This class provides several standardized methods essential for encoding input vectors. Four subclasses, each representing a different encoding method, inherit from this base class and implement their respective strategies. This model promotes object-oriented programming principles, enhancing flexibility and reusability.
+
+The abstract parent class `QuantumStatePreparation` is inherited by its four child classes located in `qsp/encodings`:
+
+1. The class `BasisEncoding` contained in the module `basis.py`.
+2. The class `AngleEncoding` contained in the module `angle.py`.
+3. The class `AmplitudeEncoding` contained in the module `amplitude.py`.
+4. The class `DivideAndConquerEncoding` contained in the module `divide_and_conquer.py`.
+
+Each subclass focuses on its respective encoding method, utilizing foundational methods from the parent class and introducing unique methods and operations. These subclasses implement the abstract methods `_encode_input_vector()` and `_validate_input_vector()`, which encode and validate input vectors, respectively. The code is thoroughly commented and the algorithms are explained in detail in the comments.
+
+#### Directory `notebooks/`
+
+The Jupyter Notebooks in the directory `notebooks/` demonstrate the practical use and performance analysis of the implemented encoding methods. They provide interactive environments with visualizations and modifiable parameters. The Notebooks are categorized as follows:
+
+- `readme_libraries.ipynb`: Assists in setting up the computational environment by listing required Python libraries and their versions to ensure compatibility.
+- `circuit_complexity.ipynb`: Analyzes the computational complexity of the quantum circuits generated by different encoding methods, evaluating gate and qubit requirements for various input vector lengths.
+- Notebooks in `notebooks/encoding_demonstration` showcase the application of each encoding method on pseudo-randomly generated input vectors. These include:
+  - `basis.ipynb`
+  - `angle.ipynb`
+  - `amplitude.ipynb`
+  - `divide_and_conquer.ipynb`
+
+Each demonstration Notebook follows the following structured format:
+
+1. An input vector of a given length is generated according to the needs of the encoding method.
+2. The input vector is then encoded using the corresponding encoding method from the package `qsp`. During the encoding process, a quantum circuit is created, where the state that this circuit produces represents the input vector.
+3. A simulation is then performed using the Qiskit's default Aer simulator, providing immediate feedback on the circuit's performance and the encoding outcomes.
+4. The simulation results are then compared to the expected results calculated from the input vector.
+5. A real quantum computer is chosen to run the quantum circuit. A job is then sent to the chosen backend instance, and the measurement results are retrieved when the instance finishes running the circuit.
+6. These three types of values are compared (and presented in the form of a histogram):
+    - The measurement results obtained by running the circuit on the chosen quantum computer.
+    - The simulation results.
+    - The expected results calculated from the input vector.
+7. Finally, two metrics (the fidelity and the trace distance) are calculated to evaluate the quality of the state produced by the chosen quantum hardware.
+
+These Notebooks include various visualizations such as quantum circuit diagrams and probability distribution histograms, which are also utilized in the thesis.
+
+## Inspiration
+The thesis is heavily inspired by the article named [A divide-and-conquer algorithm for quantum state preparation](https://doi.org/10.48550/arXiv.2008.01511), written by authors Israel F. Araujo, Daniel K. Park, Francesco Petruccione, and Adenilton J. da Silva. In this publication, the authors present a data encoding algorithm based on a divide-and-conquer strategy. The divide-and-conquer data encoding algorithm presented in that article has been utilized in this repository without much modification. There is also a [publicly accessible GitHub repository](https://github.com/adjs/dcsp) that was created during the development of the aforementioned publication.
+
+## Structure
+
+The file structure of this repository is outlined below:
+
+- `README.md`: Contains a description of the repository and its contents.
+- `thesis.pdf`: The PDF file of the thesis.
+- `qsp/`: A root directory of the package that implements all the encoding methods.
+    - `base.py`: Contains an abstract class that all implemented encoding methods in the directory `encodings` inherit from.
+    - `encodings/`: A directory containing all the implemented encoding methods.
+        - `basis.py`: A module that contains the implemented basis encoding method algorithm.
+        - `angle.py`: A module that contains the implemented angle encoding method algorithm.
+        - `amplitude.py`: A module that contains the implemented amplitude encoding method algorithm.
+        - `divide_and_conquer.py`: A module that contains the implemented divide-and-conquer encoding method algorithm.
+        - `__init__.py`: A Python file that imports the parent abstract class to make it available at the level of this directory.
+    - `__init__.py`: A Python file that imports the modules from the directory `encodings` to make them available at the package root level.
+- `notebooks/`: A root directory that contains all the Jupyter Notebooks present in the repository.
+    - `encoding_demonstration/`: A directory that contains Jupyter Notebooks showcasing the implemented encoding methods from the package `qsp`.
+        - `basis.ipynb`: A Jupyter Notebook showcasing the implementation of the basis encoding method.
+        - `angle.ipynb`: A Jupyter Notebook showcasing the implementation of the angle encoding method.
+        - `amplitude.ipynb`: A Jupyter Notebook showcasing the implementation of the amplitude encoding method.
+        - `divide_and_conquer.ipynb`: A Jupyter Notebook showcasing the implementation of the divide-and-conquer encoding method.
+        - `helpers.py`: A Python file that contains code used by the notebooks in this directory.
+    - `circuit_complexity.ipynb`: A Jupyter Notebook that compares the qubit and gate complexities of the implemented encoding methods.
+    - `readme_libraries.ipynb`: A short Jupyter Notebook that contains a list of libraries used in the code throughout this repository, along with their versions.
